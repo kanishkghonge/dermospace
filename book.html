@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book an appointment with Dr. Venkatesh Mandava at Dermospace — in-clinic or teleconsultation available in Visakhapatnam.">
+    <title>Book Appointment | Dermospace by Dr. Venkatesh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* ── Page Shell ── */
+        .book-hero {
+            padding-top: calc(var(--header-height) + 50px);
+            padding-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .book-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 90% 70% at 50% 0%, #e4ede6 0%, transparent 70%);
+            z-index: 0;
+        }
+        .book-hero > * { position: relative; z-index: 1; }
+        .book-hero h1 { font-size: 2.6rem; margin-bottom: 10px; }
+        .book-hero p  { font-size: 1rem; max-width: 500px; margin: 0 auto; }
+
+        .book-main { padding: 50px 0 100px; }
+
+        /* ── Wizard card ── */
+        .wizard-card {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 40px 32px;
+        }
+
+        /* ── Step progress bar ── */
+        .wizard-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 44px;
+        }
+        .wizard-progress::before {
+            content: '';
+            position: absolute;
+            top: 18px; left: 0; right: 0;
+            height: 2px;
+            background: var(--color-sage-light);
+            z-index: 0;
+        }
+        .progress-bar-fill {
+            position: absolute;
+            top: 18px; left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            z-index: 1;
+            transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 0%;
+        }
+        .step-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+        .step-circle {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid var(--color-sage-light);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+        }
+        .step-circle.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+            color: #fff;
+            box-shadow: 0 0 0 4px rgba(30,59,43,0.08);
+        }
+        .step-circle.done {
+            border-color: var(--color-success);
+            background: var(--color-success);
+            color: #fff;
+        }
+        .step-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+            white-space: nowrap;
+        }
+        .step-label.active { color: var(--color-primary); }
+
+        /* ── Step panels ── */
+        .step-panel { display: none; }
+        .step-panel.active {
+            display: block;
+            animation: fadeSlideUp 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+        }
+        @keyframes fadeSlideUp {
+            from { opacity:0; transform:translateY(18px); }
+            to   { opacity:1; transform:translateY(0);    }
+        }
+
+        .step-heading {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .step-subheading {
+            font-size: 0.92rem;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        /* ── Step 1 : Consult Type ── */
+        .consult-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 16px;
+        }
+        .consult-option {
+            border: 2px solid var(--color-border-glass);
+            border-radius: var(--border-radius-md);
+            padding: 28px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: rgba(255,255,255,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .consult-option:hover {
+            border-color: rgba(138,112,81,0.35);
+            background: rgba(138,112,81,0.03);
+        }
+        .consult-option.selected {
+            border-color: var(--color-accent);
+            background: rgba(138,112,81,0.05);
+            box-shadow: 0 0 0 4px rgba(138,112,81,0.08);
+        }
+        .consult-icon {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: var(--color-sage-light);
+            color: var(--color-primary);
+            display: flex; align-items: center; justify-content: center;
+            transition: var(--transition-quick);
+        }
+        .consult-option.selected .consult-icon {
+            background: var(--color-primary);
+            color: #fff;
+        }
+        .consult-option h3 { font-size: 1.05rem; margin-bottom: 4px; }
+        .consult-option p  { font-size: 0.82rem; }
+        .consult-fee {
+            margin-top: 6px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--color-accent);
+        }
+
+        /* ── Step 2 : Date & Time ── */
+        .form-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--color-border-glass);
+            background: rgba(255,255,255,0.6);
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition-quick);
+        }
+        .form-control:focus {
+            border-color: var(--color-accent);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(138,112,81,0.1);
+        }
+        .form-group { margin-bottom: 22px; }
+        .slots-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+        .slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .slot-chip {
+            padding: 11px 8px;
+            text-align: center;
+            border-radius: var(--border-radius-sm);
+            border: 1.5px solid var(--color-border-glass);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: var(--transition-quick);
+            background: rgba(255,255,255,0.5);
+            color: var(--text-secondary);
+            user-select: none;
+        }
+        .slot-chip:hover { border-color: var(--color-accent); color: var(--color-primary); }
+        .slot-chip.selected {
+            background: var(--color-primary);
+            color: #fff;
+            border-color: var(--color-primary);
+        }
+        .slot-chip.unavailable {
+            opacity: 0.35;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* ── Step 3 : Patient Details ── */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .form-grid-1 { display: grid; gap: 16px; }
+
+        /* ── Step 4 : Checkout Paywall ── */
+        .invoice-box {
+            background: linear-gradient(135deg, var(--color-sage-light), #faf3ea);
+            border: 1px dashed rgba(30,59,43,0.15);
+            border-radius: var(--border-radius-sm);
+            padding: 22px 20px;
+            margin-bottom: 24px;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .invoice-header h4 { font-size: 1rem; }
+        .invoice-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: var(--color-success);
+            color: #fff;
+            padding: 3px 10px;
+            border-radius: 50px;
+            letter-spacing: 0.05em;
+        }
+        .invoice-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            padding: 7px 0;
+            border-bottom: 1px solid rgba(30,59,43,0.06);
+        }
+        .invoice-row:last-child { border-bottom: none; }
+        .invoice-row .label { color: var(--text-secondary); }
+        .invoice-row .value { font-weight: 600; color: var(--text-primary); }
+        .invoice-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 14px;
+            margin-top: 8px;
+            border-top: 2px solid rgba(30,59,43,0.12);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        /* Payment method tabs */
+        .pay-method-tabs {
+            display: flex;
+            border: 1.5px solid var(--color-border-glass);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+        .pay-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            transition: var(--transition-quick);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+        .pay-tab + .pay-tab { border-left: 1.5px solid var(--color-border-glass); }
+        .pay-tab.active {
+            background: var(--color-primary);
+            color: #fff;
+        }
+
+        .card-fields { display: none; flex-direction: column; gap: 14px; }
+        .card-fields.visible { display: flex; }
+        .upi-field  { display: none; flex-direction: column; gap: 14px; }
+        .upi-field.visible  { display: flex; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .secure-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+        .secure-note i { color: var(--color-success); width: 14px; height: 14px; }
+
+        .pay-btn {
+            width: 100%;
+            padding: 17px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-top: 24px;
+            border-radius: var(--border-radius-sm);
+            background: linear-gradient(135deg, var(--color-primary), #2c5f3f);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition-smooth);
+        }
+        .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(30,59,43,0.2); }
+        .pay-btn .spinner {
+            display: none;
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Success Screen ── */
+        .success-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px 10px 10px;
+            animation: fadeSlideUp 0.6s ease forwards;
+        }
+        .success-screen.visible { display: flex; }
+        .success-ring {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: var(--color-success);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff;
+            margin-bottom: 24px;
+            box-shadow: 0 0 0 12px rgba(44,110,73,0.1);
+            animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .success-screen h2 { font-size: 1.8rem; margin-bottom: 10px; }
+        .success-screen > p { margin-bottom: 30px; max-width: 420px; }
+        .ticket-card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border-glass);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        .ticket-header {
+            background: linear-gradient(135deg, var(--color-primary), #2c5f3f);
+            color: #fff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ticket-header h4 { color: #fff; font-size: 1rem; }
+        .ticket-header p  { color: rgba(255,255,255,0.75); font-size: 0.8rem; }
+        .ticket-body {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+            padding-bottom: 8px;
+        }
+        .ticket-row:last-child { border: none; padding: 0; }
+        .ticket-row .t-label { color: var(--text-muted); }
+        .ticket-row .t-value { font-weight: 600; color: var(--text-primary); }
+        .ticket-id {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* ── Wizard Nav buttons ── */
+        .wizard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 36px;
+            padding-top: 22px;
+            border-top: 1px solid var(--color-border-glass);
+        }
+        .btn-back {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1.5px solid var(--color-border-glass);
+            padding: 12px 24px;
+        }
+        .btn-back:hover { border-color: rgba(30,59,43,0.2); color: var(--color-primary); }
+        .btn-next {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            color: #fff;
+            padding: 12px 28px;
+            box-shadow: 0 4px 14px rgba(30,59,43,0.15);
+        }
+        .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(30,59,43,0.22); }
+
+        /* Error message */
+        .field-error {
+            font-size: 0.78rem;
+            color: var(--color-danger);
+            margin-top: 4px;
+            display: none;
+        }
+        .field-error.visible { display: block; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .wizard-card { padding: 28px 18px; }
+            .consult-grid { grid-template-columns: 1fr; }
+            .form-grid-2 { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .slots-grid { grid-template-columns: repeat(2, 1fr); }
+            .step-label { display: none; }
+            .book-hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-link">
+                <div class="logo-wrapper">
+                    <img src="photos/logo.png" alt="Dermospace Logo" class="site-logo">
+                    <div class="logo-text">Dermospace<span>by Dr. Venkatesh</span></div>
+                </div>
+            </a>
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false"><i data-lucide="menu"></i></button>
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="index.html"        class="nav-link">Home</a></li>
+                    <li><a href="about.html"         class="nav-link">About</a></li>
+                    <li><a href="services.html"      class="nav-link">Our Services</a></li>
+                    <li><a href="testimonials.html"  class="nav-link">Testimonials</a></li>
+                    <li><a href="book.html"          class="nav-link">Book Appointment</a></li>
+                    <li><a href="contact.html"       class="nav-link">Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-socials">
+                <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                <a href="https://wa.me/918317645885" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" aria-label="WhatsApp"><i data-lucide="phone"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="book-hero">
+        <span class="section-tag reveal-anim">Schedule Your Visit</span>
+        <h1 class="reveal-anim">Book an <span class="gradient-text">Appointment</span></h1>
+        <p class="reveal-anim">In-clinic or online teleconsultation — choose what works for you and confirm your slot in minutes.</p>
+    </section>
+
+    <main class="book-main">
+        <div class="container">
+            <div class="wizard-card glass-card scroll-anim">
+
+                <!-- Progress Bar -->
+                <div class="wizard-progress">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                    <div class="step-node">
+                        <div class="step-circle active" id="sc1">1</div>
+                        <span class="step-label active" id="sl1">Consult Type</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="step-circle" id="sc2">2</div>
+                        <span class="step-label" id="sl2">Date & Time</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="step-circle" id="sc3">3</div>
+                        <span class="step-label" id="sl3">Your Details</span>
+                    </div>
+                    <div class="step-node">
+                        <div class="step-circle" id="sc4">4</div>
+                        <span class="step-label" id="sl4">Payment</span>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 1 — Consult Type
+                ═══════════════════════════════════════ -->
+                <div class="step-panel active" id="step1">
+                    <h2 class="step-heading">Choose Consultation Type</h2>
+                    <p class="step-subheading">Select how you'd like to meet Dr. Venkatesh Mandava.</p>
+
+                    <div class="consult-grid">
+                        <div class="consult-option" id="optOffline" onclick="selectConsult('offline')">
+                            <div class="consult-icon"><i data-lucide="building-2" width="26" height="26"></i></div>
+                            <div>
+                                <h3>In-Clinic Visit</h3>
+                                <p>Visit Dermospace at MVP Colony, Visakhapatnam for an in-person consultation with Dr. Venkatesh.</p>
+                                <div class="consult-fee">₹ 500 / session</div>
+                            </div>
+                        </div>
+                        <div class="consult-option" id="optTele" onclick="selectConsult('tele')">
+                            <div class="consult-icon"><i data-lucide="video" width="26" height="26"></i></div>
+                            <div>
+                                <h3>Teleconsultation</h3>
+                                <p>Video call consultation from the comfort of your home. Secure and private link sent on confirmation.</p>
+                                <div class="consult-fee">₹ 300 / session</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="consultError" class="field-error" style="text-align:center;">Please select a consultation type to continue.</p>
+
+                    <div class="wizard-nav">
+                        <span></span>
+                        <button class="btn btn-next" onclick="goNext(1)">
+                            Continue <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 2 — Date & Time
+                ═══════════════════════════════════════ -->
+                <div class="step-panel" id="step2">
+                    <h2 class="step-heading">Pick a Date & Time</h2>
+                    <p class="step-subheading">Clinic hours: Mon – Fri, Sun · 1:00 PM – 9:00 PM &amp; 9:15 PM – 10:45 PM</p>
+
+                    <div class="form-group">
+                        <label class="form-label" for="apptDate">Select Date</label>
+                        <input type="date" class="form-control" id="apptDate">
+                        <span id="dateError" class="field-error">Please select a date.</span>
+                    </div>
+
+                    <div>
+                        <span class="slots-label">Available Time Slots</span>
+                        <div class="slots-grid" id="slotsGrid">
+                            <div class="slot-chip" onclick="selectSlot(this)">01:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">01:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">02:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">02:30 PM</div>
+                            <div class="slot-chip unavailable">03:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">03:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">04:00 PM</div>
+                            <div class="slot-chip unavailable">04:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">05:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">05:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">06:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">06:30 PM</div>
+                            <div class="slot-chip unavailable">07:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">07:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">08:00 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">08:30 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">09:15 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">09:45 PM</div>
+                            <div class="slot-chip" onclick="selectSlot(this)">10:15 PM</div>
+                        </div>
+                        <span id="slotError" class="field-error" style="margin-top:10px; display:none;">Please select a time slot.</span>
+                    </div>
+
+                    <div class="wizard-nav">
+                        <button class="btn btn-back" onclick="goPrev(2)"><i data-lucide="arrow-left"></i> Back</button>
+                        <button class="btn btn-next" onclick="goNext(2)">Continue <i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 3 — Patient Details
+                ═══════════════════════════════════════ -->
+                <div class="step-panel" id="step3">
+                    <h2 class="step-heading">Your Details</h2>
+                    <p class="step-subheading">We'll use this to confirm your appointment and send you a reminder.</p>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="fname">First Name *</label>
+                            <input type="text" class="form-control" id="fname" placeholder="e.g. Priya">
+                            <span id="fnameError" class="field-error">Required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="lname">Last Name *</label>
+                            <input type="text" class="form-control" id="lname" placeholder="e.g. Sharma">
+                            <span id="lnameError" class="field-error">Required.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number *</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="+91 98765 43210">
+                            <span id="phoneError" class="field-error">Enter a valid 10-digit number.</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <span id="emailError" class="field-error">Enter a valid email address.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="age">Age</label>
+                        <input type="number" class="form-control" id="age" placeholder="e.g. 28" min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="concern">Primary Concern *</label>
+                        <select class="form-control" id="concern">
+                            <option value="">— Select your concern —</option>
+                            <option>Acne / Pimples</option>
+                            <option>Hair Fall / Androgenetic Alopecia</option>
+                            <option>Alopecia Areata</option>
+                            <option>Hair Regrowth (GFC / PRP)</option>
+                            <option>Chemical Peel / Skin Brightening</option>
+                            <option>MesoGlow Treatment</option>
+                            <option>Eczema / Skin Allergy</option>
+                            <option>Fungal Infection</option>
+                            <option>Botox / Aesthetic Procedure</option>
+                            <option>Skin Peeling</option>
+                            <option>General Dermatology Consultation</option>
+                        </select>
+                        <span id="concernError" class="field-error">Please select a concern.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="notes">Additional Notes (optional)</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Any previous treatments, allergies, or questions for the doctor…"></textarea>
+                    </div>
+
+                    <div class="wizard-nav">
+                        <button class="btn btn-back" onclick="goPrev(3)"><i data-lucide="arrow-left"></i> Back</button>
+                        <button class="btn btn-next" onclick="goNext(3)">Proceed to Payment <i data-lucide="arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     STEP 4 — Payment / Checkout
+                ═══════════════════════════════════════ -->
+                <div class="step-panel" id="step4">
+                    <h2 class="step-heading">Confirm & Pay</h2>
+                    <p class="step-subheading">Review your booking summary and complete the payment to confirm your slot.</p>
+
+                    <!-- Invoice -->
+                    <div class="invoice-box">
+                        <div class="invoice-header">
+                            <h4>Booking Summary</h4>
+                            <span class="invoice-badge">DERMOSPACE</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Doctor</span>
+                            <span class="value">Dr. Venkatesh Mandava</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Consultation Type</span>
+                            <span class="value" id="inv-type">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Date</span>
+                            <span class="value" id="inv-date">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Time Slot</span>
+                            <span class="value" id="inv-time">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Patient</span>
+                            <span class="value" id="inv-patient">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Concern</span>
+                            <span class="value" id="inv-concern">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Consultation Fee</span>
+                            <span class="value" id="inv-fee">—</span>
+                        </div>
+                        <div class="invoice-row">
+                            <span class="label">Platform Convenience Fee</span>
+                            <span class="value">₹ 0</span>
+                        </div>
+                        <div class="invoice-total">
+                            <span>Total Payable</span>
+                            <span id="inv-total">—</span>
+                        </div>
+                    </div>
+
+                    <!-- Payment method -->
+                    <div class="pay-method-tabs">
+                        <button class="pay-tab active" id="tabCard" onclick="setPayMethod('card')">
+                            <i data-lucide="credit-card"></i> Card
+                        </button>
+                        <button class="pay-tab" id="tabUPI" onclick="setPayMethod('upi')">
+                            <i data-lucide="smartphone"></i> UPI
+                        </button>
+                        <button class="pay-tab" id="tabNet" onclick="setPayMethod('net')">
+                            <i data-lucide="landmark"></i> Net Banking
+                        </button>
+                    </div>
+
+                    <!-- Card Fields -->
+                    <div class="card-fields visible" id="cardFields">
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Card Number</label>
+                            <input type="text" class="form-control" placeholder="4242 4242 4242 4242" maxlength="19" id="cardNum" oninput="formatCard(this)">
+                        </div>
+                        <div class="two-col">
+                            <div class="form-group" style="margin:0;">
+                                <label class="form-label">Expiry</label>
+                                <input type="text" class="form-control" placeholder="MM / YY" maxlength="7" id="cardExp" oninput="formatExpiry(this)">
+                            </div>
+                            <div class="form-group" style="margin:0;">
+                                <label class="form-label">CVV</label>
+                                <input type="password" class="form-control" placeholder="•••" maxlength="4" id="cardCvv">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Name on Card</label>
+                            <input type="text" class="form-control" placeholder="As printed on card" id="cardName">
+                        </div>
+                    </div>
+
+                    <!-- UPI Fields -->
+                    <div class="upi-field" id="upiField">
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">UPI ID</label>
+                            <input type="text" class="form-control" placeholder="yourname@upi" id="upiId">
+                        </div>
+                        <p style="font-size:0.82rem; color:var(--text-muted);">You'll receive a collect request on your UPI app after clicking Pay.</p>
+                    </div>
+
+                    <!-- Net Banking Fields -->
+                    <div class="upi-field" id="netField">
+                        <div class="form-group" style="margin:0;">
+                            <label class="form-label">Select Your Bank</label>
+                            <select class="form-control" id="bankSel">
+                                <option value="">— Choose Bank —</option>
+                                <option>State Bank of India</option>
+                                <option>HDFC Bank</option>
+                                <option>ICICI Bank</option>
+                                <option>Axis Bank</option>
+                                <option>Kotak Mahindra Bank</option>
+                                <option>Bank of Baroda</option>
+                                <option>Punjab National Bank</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <p style="font-size:0.82rem; color:var(--text-muted);">You'll be redirected to your bank's secure net banking portal.</p>
+                    </div>
+
+                    <div class="secure-note">
+                        <i data-lucide="lock"></i>
+                        <span>256-bit SSL encrypted · Payments processed securely · This is a demo environment</span>
+                    </div>
+
+                    <button class="pay-btn" id="payBtn" onclick="processPayment()">
+                        <i data-lucide="shield-check"></i>
+                        <span id="payBtnText">Pay & Confirm Appointment</span>
+                        <div class="spinner" id="paySpinner"></div>
+                    </button>
+
+                    <div class="wizard-nav" style="border:none; padding:0; margin-top:16px;">
+                        <button class="btn btn-back" onclick="goPrev(4)"><i data-lucide="arrow-left"></i> Back</button>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- ═══════════════════════════════════════
+                     SUCCESS SCREEN
+                ═══════════════════════════════════════ -->
+                <div class="success-screen" id="successScreen">
+                    <div class="success-ring">
+                        <i data-lucide="check" width="36" height="36"></i>
+                    </div>
+                    <h2>Appointment Confirmed!</h2>
+                    <p>Your slot has been successfully booked with <strong>Dr. Venkatesh Mandava</strong> at Dermospace. A confirmation message will be sent to your phone and email.</p>
+
+                    <div class="ticket-card">
+                        <div class="ticket-header">
+                            <i data-lucide="calendar-check" width="28" height="28"></i>
+                            <div>
+                                <h4>Appointment Ticket</h4>
+                                <p>Dermospace Clinic · Visakhapatnam</p>
+                            </div>
+                        </div>
+                        <div class="ticket-body">
+                            <div class="ticket-row">
+                                <span class="t-label">Patient</span>
+                                <span class="t-value" id="tick-patient">—</span>
+                            </div>
+                            <div class="ticket-row">
+                                <span class="t-label">Consult Type</span>
+                                <span class="t-value" id="tick-type">—</span>
+                            </div>
+                            <div class="ticket-row">
+                                <span class="t-label">Date</span>
+                                <span class="t-value" id="tick-date">—</span>
+                            </div>
+                            <div class="ticket-row">
+                                <span class="t-label">Time</span>
+                                <span class="t-value" id="tick-time">—</span>
+                            </div>
+                            <div class="ticket-row">
+                                <span class="t-label">Concern</span>
+                                <span class="t-value" id="tick-concern">—</span>
+                            </div>
+                            <div class="ticket-row">
+                                <span class="t-label">Amount Paid</span>
+                                <span class="t-value" id="tick-amount">—</span>
+                            </div>
+                            <p class="ticket-id" id="tick-id">Booking Ref: —</p>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+                        <a href="index.html" class="btn btn-primary btn-glow">
+                            <i data-lucide="home"></i> Back to Home
+                        </a>
+                        <a href="contact.html" class="btn btn-secondary">
+                            <i data-lucide="phone"></i> Contact Clinic
+                        </a>
+                    </div>
+                </div>
+
+            </div><!-- /.wizard-card -->
+        </div><!-- /.container -->
+    </main>
+
+    <!-- Footer (compact) -->
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-container">
+                <div class="footer-brand">
+                    <div class="logo-wrapper">
+                        <img src="photos/logo.png" alt="Dermospace Logo" class="footer-logo">
+                        <div class="logo-text">Dermospace<span>by Dr. Venkatesh</span></div>
+                    </div>
+                    <p class="footer-desc">Premium skin and hair care in MVP Colony, Visakhapatnam.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                        <a href="https://wa.me/918317645885" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp"><i data-lucide="message-square"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="book.html">Book Appointment</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-map">
+                    <h3>Locate Us</h3>
+                    <div class="map-iframe-container glass-card">
+                        <iframe src="https://maps.google.com/maps?q=Dermospace,+MVP+Colony,+Visakhapatnam&t=&z=16&ie=UTF8&iwloc=&output=embed" width="100%" height="150" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Dermospace Location Map"></iframe>
+                    </div>
+                    <p class="map-address">RS Apartments, Near TTD Kalyanamandapam, MVP Colony, Vizag - 530017</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p>&copy; 2026 Dermospace. All rights reserved.</p>
+                <p>Dermospace by Dr. Venkatesh Mandava</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/918317645885?text=hello%20i%20would%20like%20to%20consult%20with%20dr%20venkatesh" class="whatsapp-floating-widget" target="_blank" rel="noopener noreferrer">
+        <span class="whatsapp-hint">Chat with us!</span>
+        <div class="whatsapp-icon-circle">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.623-1.023-5.09-2.885-6.948C16.58 2.001 14.12 1.01 11.516 1.01c-5.44 0-9.866 4.372-9.87 9.802 0 1.688.451 3.336 1.307 4.8l-.993 3.626 3.697-.974zm13.114-6.27c-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.568-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/></svg>
+        </div>
+    </a>
+
+    <script src="global.js"></script>
+    <script>
+    // ─────────────────────────────────────────
+    //  State
+    // ─────────────────────────────────────────
+    let state = {
+        consultType: null,   // 'offline' | 'tele'
+        fee: 0,
+        date: '',
+        time: '',
+        payMethod: 'card'
+    };
+
+    const totalSteps = 4;
+    const progressFill = document.getElementById('progressFill');
+
+    // ─────────────────────────────────────────
+    //  Step navigation
+    // ─────────────────────────────────────────
+    function goNext(currentStep) {
+        if (!validateStep(currentStep)) return;
+        activateStep(currentStep + 1);
+    }
+
+    function goPrev(currentStep) {
+        activateStep(currentStep - 1);
+    }
+
+    function activateStep(stepNum) {
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('step' + stepNum).classList.add('active');
+
+        // Update circles
+        for (let i = 1; i <= totalSteps; i++) {
+            const circle = document.getElementById('sc' + i);
+            const label  = document.getElementById('sl' + i);
+            circle.classList.remove('active', 'done');
+            label.classList.remove('active');
+            if (i < stepNum)       { circle.classList.add('done');   circle.innerHTML = '<i data-lucide="check" width="15" height="15"></i>'; }
+            else if (i === stepNum){ circle.classList.add('active');  circle.textContent = i; label.classList.add('active'); }
+            else                   { circle.textContent = i; }
+        }
+
+        // Progress bar width: after step N completed = (N-1)/(total-1)*100
+        const pct = ((stepNum - 1) / (totalSteps - 1)) * 100;
+        progressFill.style.width = pct + '%';
+
+        lucide.createIcons();
+
+        // Populate invoice on step 4
+        if (stepNum === 4) populateInvoice();
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ─────────────────────────────────────────
+    //  Validation per step
+    // ─────────────────────────────────────────
+    function validateStep(step) {
+        if (step === 1) {
+            if (!state.consultType) {
+                document.getElementById('consultError').classList.add('visible');
+                return false;
+            }
+            document.getElementById('consultError').classList.remove('visible');
+            return true;
+        }
+        if (step === 2) {
+            let ok = true;
+            const d = document.getElementById('apptDate').value;
+            if (!d) { document.getElementById('dateError').classList.add('visible'); ok = false; }
+            else     document.getElementById('dateError').classList.remove('visible');
+            if (!state.time) {
+                document.getElementById('slotError').style.display = 'block';
+                ok = false;
+            } else document.getElementById('slotError').style.display = 'none';
+            if (ok) { state.date = d; }
+            return ok;
+        }
+        if (step === 3) {
+            let ok = true;
+            const fields = [
+                { id:'fname',   errId:'fnameError',   test: v => v.trim().length > 0 },
+                { id:'lname',   errId:'lnameError',   test: v => v.trim().length > 0 },
+                { id:'phone',   errId:'phoneError',   test: v => /^\+?[\d\s\-]{10,}$/.test(v.trim()) },
+                { id:'email',   errId:'emailError',   test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+                { id:'concern', errId:'concernError', test: v => v !== '' }
+            ];
+            fields.forEach(f => {
+                const el  = document.getElementById(f.id);
+                const err = document.getElementById(f.errId);
+                if (!f.test(el.value)) { err.classList.add('visible');    ok = false; }
+                else                    err.classList.remove('visible');
+            });
+            return ok;
+        }
+        return true;
+    }
+
+    // ─────────────────────────────────────────
+    //  Consult type selection
+    // ─────────────────────────────────────────
+    function selectConsult(type) {
+        state.consultType = type;
+        state.fee = type === 'offline' ? 500 : 300;
+        document.getElementById('optOffline').classList.toggle('selected', type === 'offline');
+        document.getElementById('optTele').classList.toggle('selected', type === 'tele');
+        document.getElementById('consultError').classList.remove('visible');
+    }
+
+    // ─────────────────────────────────────────
+    //  Slot selection
+    // ─────────────────────────────────────────
+    function selectSlot(el) {
+        if (el.classList.contains('unavailable')) return;
+        document.querySelectorAll('.slot-chip').forEach(c => c.classList.remove('selected'));
+        el.classList.add('selected');
+        state.time = el.textContent.trim();
+        document.getElementById('slotError').style.display = 'none';
+    }
+
+    // ─────────────────────────────────────────
+    //  Payment method tabs
+    // ─────────────────────────────────────────
+    function setPayMethod(method) {
+        state.payMethod = method;
+        ['card','upi','net'].forEach(m => document.getElementById('tab' + m.charAt(0).toUpperCase() + m.slice(1)).classList.remove('active'));
+        document.getElementById('tab' + method.charAt(0).toUpperCase() + method.slice(1)).classList.add('active');
+
+        document.getElementById('cardFields').classList.toggle('visible', method === 'card');
+        document.getElementById('upiField').classList.toggle('visible',   method === 'upi');
+        document.getElementById('netField').classList.toggle('visible',   method === 'net');
+    }
+
+    // ─────────────────────────────────────────
+    //  Card input formatters
+    // ─────────────────────────────────────────
+    function formatCard(el) {
+        let v = el.value.replace(/\D/g,'').slice(0,16);
+        el.value = v.replace(/(.{4})/g,'$1 ').trim();
+    }
+    function formatExpiry(el) {
+        let v = el.value.replace(/\D/g,'').slice(0,4);
+        if (v.length >= 3) v = v.slice(0,2) + ' / ' + v.slice(2);
+        el.value = v;
+    }
+
+    // ─────────────────────────────────────────
+    //  Populate invoice
+    // ─────────────────────────────────────────
+    function populateInvoice() {
+        const typeLabel = state.consultType === 'offline' ? 'In-Clinic Visit' : 'Teleconsultation';
+        const dateStr   = state.date ? new Date(state.date).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+        const patient   = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim() || '—';
+        const concern   = document.getElementById('concern').value || '—';
+
+        document.getElementById('inv-type').textContent    = typeLabel;
+        document.getElementById('inv-date').textContent    = dateStr;
+        document.getElementById('inv-time').textContent    = state.time || '—';
+        document.getElementById('inv-patient').textContent = patient;
+        document.getElementById('inv-concern').textContent = concern;
+        document.getElementById('inv-fee').textContent     = '₹ ' + state.fee;
+        document.getElementById('inv-total').textContent   = '₹ ' + state.fee;
+    }
+
+    // ─────────────────────────────────────────
+    //  Payment processing (mock)
+    // ─────────────────────────────────────────
+    function processPayment() {
+        const btn     = document.getElementById('payBtn');
+        const spinner = document.getElementById('paySpinner');
+        const btnText = document.getElementById('payBtnText');
+
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Processing…';
+
+        setTimeout(() => {
+            showSuccess();
+        }, 2400);
+    }
+
+    function showSuccess() {
+        // Hide wizard panels + progress
+        document.querySelector('.wizard-progress').style.display = 'none';
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+
+        // Populate ticket
+        const typeLabel = state.consultType === 'offline' ? 'In-Clinic Visit' : 'Teleconsultation';
+        const dateStr   = state.date ? new Date(state.date).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+        const patient   = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim();
+        const concern   = document.getElementById('concern').value;
+        const refId     = 'DS' + Date.now().toString(36).toUpperCase().slice(-8);
+
+        document.getElementById('tick-patient').textContent = patient;
+        document.getElementById('tick-type').textContent    = typeLabel;
+        document.getElementById('tick-date').textContent    = dateStr;
+        document.getElementById('tick-time').textContent    = state.time;
+        document.getElementById('tick-concern').textContent = concern;
+        document.getElementById('tick-amount').textContent  = '₹ ' + state.fee + ' (Paid)';
+        document.getElementById('tick-id').textContent      = 'Booking Ref: ' + refId;
+
+        const ss = document.getElementById('successScreen');
+        ss.classList.add('visible');
+        lucide.createIcons();
+        ss.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ─────────────────────────────────────────
+    //  Set min date to today
+    // ─────────────────────────────────────────
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('apptDate').min = today;
+    </script>
+</body>
+</html>
