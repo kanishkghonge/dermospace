@@ -494,12 +494,13 @@
                     <li><a href="about.html"         class="nav-link">About</a></li>
                     <li><a href="services.html"      class="nav-link">Our Services</a></li>
                     <li><a href="testimonials.html"  class="nav-link">Testimonials</a></li>
+                    <li><a href="resources.html"     class="nav-link">Resources</a></li>
                     <li><a href="book.html"          class="nav-link">Book Appointment</a></li>
                     <li><a href="contact.html"       class="nav-link">Contact Us</a></li>
                 </ul>
             </nav>
             <div class="header-socials">
-                <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+                <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
                 <a href="https://wa.me/918317645885" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" aria-label="WhatsApp"><i data-lucide="phone"></i></a>
             </div>
         </div>
@@ -550,7 +551,7 @@
                             <div>
                                 <h3>In-Clinic Visit</h3>
                                 <p>Visit Dermospace at MVP Colony, Visakhapatnam for an in-person consultation with Dr. Venkatesh.</p>
-                                <div class="consult-fee">₹ 500 / session</div>
+                                <div class="consult-fee">₹ 1000 / session</div>
                             </div>
                         </div>
                         <div class="consult-option" id="optTele" onclick="selectConsult('tele')">
@@ -558,7 +559,7 @@
                             <div>
                                 <h3>Teleconsultation</h3>
                                 <p>Video call consultation from the comfort of your home. Secure and private link sent on confirmation.</p>
-                                <div class="consult-fee">₹ 300 / session</div>
+                                <div class="consult-fee">₹ 1000 / session</div>
                             </div>
                         </div>
                     </div>
@@ -650,34 +651,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="form-label" for="age">Age</label>
-                        <input type="number" class="form-control" id="age" placeholder="e.g. 28" min="1" max="120">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="concern">Primary Concern *</label>
-                        <select class="form-control" id="concern">
-                            <option value="">— Select your concern —</option>
-                            <option>Acne / Pimples</option>
-                            <option>Hair Fall / Androgenetic Alopecia</option>
-                            <option>Alopecia Areata</option>
-                            <option>Hair Regrowth (GFC / PRP)</option>
-                            <option>Chemical Peel / Skin Brightening</option>
-                            <option>MesoGlow Treatment</option>
-                            <option>Eczema / Skin Allergy</option>
-                            <option>Fungal Infection</option>
-                            <option>Botox / Aesthetic Procedure</option>
-                            <option>Skin Peeling</option>
-                            <option>General Dermatology Consultation</option>
-                        </select>
-                        <span id="concernError" class="field-error">Please select a concern.</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="notes">Additional Notes (optional)</label>
-                        <textarea class="form-control" id="notes" rows="3" placeholder="Any previous treatments, allergies, or questions for the doctor…"></textarea>
-                    </div>
+                    <!-- Note: Age, Concern, and Notes removed for simplification -->
 
                     <div class="wizard-nav">
                         <button class="btn btn-back" onclick="goPrev(3)"><i data-lucide="arrow-left"></i> Back</button>
@@ -698,9 +672,12 @@
                             <h4>Booking Summary</h4>
                             <span class="invoice-badge">DERMOSPACE</span>
                         </div>
-                        <div class="invoice-row">
+                        <div class="invoice-row" style="align-items: center; padding: 10px 0;">
                             <span class="label">Doctor</span>
-                            <span class="value">Dr. Venkatesh Mandava</span>
+                            <span class="value" style="display: flex; align-items: center; gap: 8px;">
+                                <img src="photos/dr%20venkatesh.png" alt="Dr. Venkatesh" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--color-border-glass);">
+                                Dr. Venkatesh Mandava
+                            </span>
                         </div>
                         <div class="invoice-row">
                             <span class="label">Consultation Type</span>
@@ -718,10 +695,7 @@
                             <span class="label">Patient</span>
                             <span class="value" id="inv-patient">—</span>
                         </div>
-                        <div class="invoice-row">
-                            <span class="label">Concern</span>
-                            <span class="value" id="inv-concern">—</span>
-                        </div>
+                        <!-- Concern removed from invoice -->
                         <div class="invoice-row">
                             <span class="label">Consultation Fee</span>
                             <span class="value" id="inv-fee">—</span>
@@ -827,12 +801,15 @@
                     <p>Your slot has been successfully booked with <strong>Dr. Venkatesh Mandava</strong> at Dermospace. A confirmation message will be sent to your phone and email.</p>
 
                     <div class="ticket-card">
-                        <div class="ticket-header">
-                            <i data-lucide="calendar-check" width="28" height="28"></i>
-                            <div>
-                                <h4>Appointment Ticket</h4>
-                                <p>Dermospace Clinic · Visakhapatnam</p>
+                        <div class="ticket-header" style="align-items: center; justify-content: space-between; display: flex;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <i data-lucide="calendar-check" width="28" height="28"></i>
+                                <div>
+                                    <h4>Appointment Ticket</h4>
+                                    <p>Dermospace Clinic · Visakhapatnam</p>
+                                </div>
                             </div>
+                            <img src="photos/dr%20venkatesh.png" alt="Dr. Venkatesh" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.4); margin-left: auto;">
                         </div>
                         <div class="ticket-body">
                             <div class="ticket-row">
@@ -851,10 +828,7 @@
                                 <span class="t-label">Time</span>
                                 <span class="t-value" id="tick-time">—</span>
                             </div>
-                            <div class="ticket-row">
-                                <span class="t-label">Concern</span>
-                                <span class="t-value" id="tick-concern">—</span>
-                            </div>
+                            <!-- Concern removed from ticket -->
                             <div class="ticket-row">
                                 <span class="t-label">Amount Paid</span>
                                 <span class="t-value" id="tick-amount">—</span>
@@ -888,8 +862,8 @@
                     </div>
                     <p class="footer-desc">Premium skin and hair care in MVP Colony, Visakhapatnam.</p>
                     <div class="footer-socials">
-                        <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram"><i data-lucide="instagram"></i></a>
-                        <a href="https://wa.me/918317645885" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp"><i data-lucide="message-square"></i></a>
+                        <a href="https://www.instagram.com/dermospacevizag/" target="_blank" rel="noopener noreferrer" class="social-icon instagram" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+                        <a href="https://wa.me/918317645885" target="_blank" rel="noopener noreferrer" class="social-icon whatsapp" aria-label="WhatsApp"><i data-lucide="message-square"></i></a>
                     </div>
                 </div>
                 <div class="footer-links">
@@ -899,6 +873,7 @@
                         <li><a href="about.html">About</a></li>
                         <li><a href="services.html">Our Services</a></li>
                         <li><a href="testimonials.html">Testimonials</a></li>
+                        <li><a href="resources.html">Resources</a></li>
                         <li><a href="book.html">Book Appointment</a></li>
                         <li><a href="contact.html">Contact Us</a></li>
                     </ul>
@@ -1012,8 +987,7 @@
                 { id:'fname',   errId:'fnameError',   test: v => v.trim().length > 0 },
                 { id:'lname',   errId:'lnameError',   test: v => v.trim().length > 0 },
                 { id:'phone',   errId:'phoneError',   test: v => /^\+?[\d\s\-]{10,}$/.test(v.trim()) },
-                { id:'email',   errId:'emailError',   test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
-                { id:'concern', errId:'concernError', test: v => v !== '' }
+                { id:'email',   errId:'emailError',   test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) }
             ];
             fields.forEach(f => {
                 const el  = document.getElementById(f.id);
@@ -1031,7 +1005,7 @@
     // ─────────────────────────────────────────
     function selectConsult(type) {
         state.consultType = type;
-        state.fee = type === 'offline' ? 500 : 300;
+        state.fee = 1000;
         document.getElementById('optOffline').classList.toggle('selected', type === 'offline');
         document.getElementById('optTele').classList.toggle('selected', type === 'tele');
         document.getElementById('consultError').classList.remove('visible');
@@ -1081,13 +1055,11 @@
         const typeLabel = state.consultType === 'offline' ? 'In-Clinic Visit' : 'Teleconsultation';
         const dateStr   = state.date ? new Date(state.date).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}) : '—';
         const patient   = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim() || '—';
-        const concern   = document.getElementById('concern').value || '—';
 
         document.getElementById('inv-type').textContent    = typeLabel;
         document.getElementById('inv-date').textContent    = dateStr;
         document.getElementById('inv-time').textContent    = state.time || '—';
         document.getElementById('inv-patient').textContent = patient;
-        document.getElementById('inv-concern').textContent = concern;
         document.getElementById('inv-fee').textContent     = '₹ ' + state.fee;
         document.getElementById('inv-total').textContent   = '₹ ' + state.fee;
     }
@@ -1118,14 +1090,12 @@
         const typeLabel = state.consultType === 'offline' ? 'In-Clinic Visit' : 'Teleconsultation';
         const dateStr   = state.date ? new Date(state.date).toLocaleDateString('en-IN',{day:'2-digit',month:'long',year:'numeric'}) : '—';
         const patient   = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim();
-        const concern   = document.getElementById('concern').value;
         const refId     = 'DS' + Date.now().toString(36).toUpperCase().slice(-8);
 
         document.getElementById('tick-patient').textContent = patient;
         document.getElementById('tick-type').textContent    = typeLabel;
         document.getElementById('tick-date').textContent    = dateStr;
         document.getElementById('tick-time').textContent    = state.time;
-        document.getElementById('tick-concern').textContent = concern;
         document.getElementById('tick-amount').textContent  = '₹ ' + state.fee + ' (Paid)';
         document.getElementById('tick-id').textContent      = 'Booking Ref: ' + refId;
 
