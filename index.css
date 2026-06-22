@@ -551,10 +551,10 @@ ul {
         justify-content: space-between;
     }
     .hero-content {
-        max-width: 48%;
+        max-width: 55%;
     }
     .hero-image-side {
-        max-width: 48%;
+        max-width: 40%;
         width: 100%;
         display: flex;
         justify-content: center;
@@ -566,7 +566,7 @@ ul {
     padding: 12px;
     border-radius: var(--border-radius-lg);
     width: 100%;
-    max-width: 460px;
+    max-width: 320px;
     overflow: hidden;
     box-shadow: 0 15px 35px rgba(30, 59, 43, 0.08);
 }
